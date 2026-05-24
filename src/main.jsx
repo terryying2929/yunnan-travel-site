@@ -14,7 +14,6 @@ import {
   MountainSnow,
   Plane,
   ShieldAlert,
-  Sparkles,
   Train,
   Users,
   Wallet,
@@ -23,6 +22,8 @@ import './styles.css';
 
 const images = {
   hero:
+    'https://commons.wikimedia.org/wiki/Special:FilePath/1_lijiang_old_town_night.jpg',
+  snow:
     'https://commons.wikimedia.org/wiki/Special:FilePath/Lijiang_Yunnan_China_Jade-Dragon-Snow-Mountain-01.jpg',
   dali:
     'https://commons.wikimedia.org/wiki/Special:FilePath/Dali-Cangshan_Erhai_Lake_2017-11-16.jpg',
@@ -46,6 +47,14 @@ const sources = [
   {
     label: '佛山中考与录取时间线参考',
     url: 'https://fs.bendibao.com/edu/zhuantizhongkao/',
+  },
+  {
+    label: '2025 佛山普通高中录取日程参考',
+    url: 'https://m.fs.bendibao.com/edu/129039.shtm',
+  },
+  {
+    label: '2025 佛山第二批录取及补录时间参考',
+    url: 'https://www.ygacity.com/ent/20250724/20738.html',
   },
   {
     label: 'B站：云南北线九天攻略，昆明-大理-丽江-香格里拉',
@@ -72,12 +81,28 @@ const sources = [
     url: 'https://www.gaotie.com.cn/lieche/foshanxi-kunmingnan.html',
   },
   {
+    label: '广东 92/95 号油价参考',
+    url: 'https://www.icauto.com.cn/oil/price_440000_0.html',
+  },
+  {
+    label: '五菱星光730 插混续航与油耗参考',
+    url: 'https://article.pchome.net/news/10793.html',
+  },
+  {
+    label: '昆明租车 SUV 日租价格参考',
+    url: 'https://www.zuchew.com/auto/6111.html',
+  },
+  {
     label: '丽江古城 UNESCO 世界遗产说明',
     url: 'https://whc.unesco.org/en/list/811',
   },
   {
     label: '图片来源：Wikimedia Commons 玉龙雪山',
     url: 'https://commons.wikimedia.org/wiki/File:Lijiang_Yunnan_China_Jade-Dragon-Snow-Mountain-01.jpg',
+  },
+  {
+    label: '图片来源：Wikimedia Commons 丽江古城夜景',
+    url: 'https://commons.wikimedia.org/wiki/File:1_lijiang_old_town_night.jpg',
   },
   {
     label: '图片来源：Wikimedia Commons 大理苍山洱海',
@@ -89,153 +114,241 @@ const sources = [
   },
 ];
 
+const schoolMilestones = [
+  {
+    date: '6月30日-7月2日',
+    title: '中考',
+    state: '不能出发',
+    text: '考试结束只是身体自由，心理上还要等成绩、志愿和录取结果。',
+  },
+  {
+    date: '7月11日',
+    title: '妹妹小学暑假开始',
+    state: '家庭时间具备',
+    text: '从小学放假角度可以走，但哥哥录取还没有完全落定。',
+  },
+  {
+    date: '7月中旬',
+    title: '成绩、提前批、第一批、第二批陆续录取',
+    state: '每天要看系统',
+    text: '2026 官方信息目前写普通高中各批次录取在7月中旬；按2025参考，普通高中录取集中在7月19日-25日。',
+  },
+  {
+    date: '约7月22日-26日',
+    title: '第二批、征集志愿/补录关键窗口',
+    state: '建议留在佛山',
+    text: '2025 年第二批为7月22日-24日，普通高中补录为7月25日-26日；如果要等第二批，最好不要提前远行。',
+  },
+  {
+    date: '7月27日以后',
+    title: '确认录取、电子通知书、注册要求',
+    state: '较稳出发',
+    text: '查到录取状态，确认是否需要现场注册、缴费、体检、军训通知或资料提交，再开车出发。保守建议7月28日后走。',
+  },
+];
+
 const transportOptions = [
   {
+    icon: <Car />,
+    name: '方案 A：佛山平胜开自家车进云南',
+    verdict: '你们现在的主方案',
+    time: '建议14天；佛山到昆明单程约1300km，拆成2天更稳',
+    cost: '交通现金成本最低，不用租车和买4人往返票',
+    comfort: '行李自由，仪式感强；但爸爸驾驶压力最大',
+    good: ['最符合你们“自己开车过去”的想法', '一家四口行李、零食、雨具和孩子用品都好带', '总交通费通常低于高铁/飞机+租车'],
+    weak: ['至少要等第二批录取和注册事项确认', '不建议压缩到9-10天', '雨季长途高速和高原山路要留缓冲'],
+  },
+  {
     icon: <Train />,
-    name: '方案 A：佛山西/广州南高铁到昆明，昆明租车',
-    verdict: '9-10天首选',
+    name: '方案 B：高铁到昆明，昆明租车',
+    verdict: '省体力备选',
     time: '高铁约7小时左右，到达后昆明取车',
-    cost: '车票+当地租车，整体可控',
-    comfort: '孩子少坐长途高速，爸爸保留体力',
-    good: ['最适合7月11日一放假就走', '保留自驾自由', '不用把4天浪费在广东-云南往返高速'],
-    weak: ['需要提前抢高铁票', '大件行李要收拾精简'],
+    cost: '4人往返高铁约4000元，再加租车',
+    comfort: '少开长途高速，爸爸体力最好保留',
+    good: ['适合假期只有9-10天', '保留云南当地自驾自由', '路上风险比全程自驾少'],
+    weak: ['整体花费会高于开自家车', '暑假高铁票要提前抢', '租车保险和押金要看清楚'],
   },
   {
     icon: <Plane />,
-    name: '方案 B：广州飞昆明/大理，落地租车',
+    name: '方案 C：广州飞昆明/大理，落地租车',
     verdict: '最省体力',
     time: '广州飞昆明约2.5小时，算上机场也半天内到',
-    cost: '旺季机票波动大，四个人可能贵',
+    cost: '暑假机票波动最大，4人往返可能明显贵',
     comfort: '对孩子最轻松，对爸爸最友好',
     good: ['适合预算允许、想把时间留给云南', '遇到生意临时变化也好调整', '回程不累'],
     weak: ['暑假机票可能涨价', '租车异地还车可能加费用'],
-  },
-  {
-    icon: <Car />,
-    name: '方案 C：佛山平胜全程自驾进云南',
-    verdict: '12-14天才建议',
-    time: '佛山到昆明单程约1300km，实际建议拆成2天',
-    cost: '省机票/高铁票，但油费、过路费、住宿会增加',
-    comfort: '仪式感最强，但司机最累',
-    good: ['真正一家人一路开出去', '行李自由', '可顺路南宁、百色中转'],
-    weak: ['9-10天太赶', '来回高速占用4天', '雨季长途驾驶风险更高'],
   },
 ];
 
 const coreDays = [
   {
     day: 'D1',
-    title: '平胜出发 → 昆明',
-    stay: '住昆明',
-    drive: '高铁/飞机到昆明，取车后只做轻松适应',
-    focus: '给儿子一个“考完真的开始了”的开场',
-    plan: '抵达后取车，吃过桥米线或汽锅鸡，晚上不赶景点。住市区或滇池/昆明南站附近，第二天出发更顺。',
+    title: '平胜 → 南宁',
+    stay: '住南宁',
+    drive: '约560km，6-7小时，第一天不要贪远',
+    focus: '离开广东，旅行真正开始',
+    plan: '早上从平胜出发，走广西方向。南宁只作为中转，晚上吃饭、散步、补给，早点睡。',
   },
   {
     day: 'D2',
-    title: '昆明 → 大理',
-    stay: '住大理古城/才村',
-    drive: '约4小时，建议早出发',
-    focus: '从城市切换到洱海慢节奏',
-    plan: '下午到大理，先不环海，逛大理古城、吃菌子火锅或白族菜。晚上早点休息，为第二天留体力。',
+    title: '南宁 → 百色/兴义',
+    stay: '住百色或兴义',
+    drive: '约250-430km，按当天状态决定',
+    focus: '把长途拆碎，保护司机体力',
+    plan: '如果状态好可到兴义，状态一般就住百色。不要为了赶到昆明硬开夜路。',
   },
   {
     day: 'D3',
-    title: '洱海轻环线：喜洲、海西、双廊',
-    stay: '住大理',
-    drive: '当天短途分段开，不追求完整环海',
-    focus: '轻松、拍照、孩子不累',
-    plan: '上午喜洲古镇，午后海西生态廊道骑车或散步，天气好再去双廊。不要把洱海环线开成打卡任务。',
+    title: '百色/兴义 → 昆明',
+    stay: '住昆明',
+    drive: '约300-520km',
+    focus: '抵达云南，先休整',
+    plan: '下午到昆明后不赶景点。检查车辆、洗衣、补给，吃一顿舒服的云南菜。',
   },
   {
     day: 'D4',
-    title: '大理 → 沙溪 → 丽江',
-    stay: '住束河/白沙',
-    drive: '分段约3-4小时',
-    focus: '比直接去丽江更有层次',
-    plan: '中午停沙溪古镇，走一走茶马古道老镇。下午到丽江，建议住束河或白沙，安静、停车相对友好。',
+    title: '昆明 → 大理',
+    stay: '住大理古城/才村',
+    drive: '约340km，4小时左右',
+    focus: '进入洱海慢节奏',
+    plan: '下午到大理，先逛古城或才村，不急着环海。住宿优先选停车方便、可洗衣。',
   },
   {
     day: 'D5',
-    title: '丽江：玉龙雪山或蓝月谷',
-    stay: '住丽江',
-    drive: '短途，景区需早起',
-    focus: '给儿子的“高光奖励日”',
-    plan: '如果抢到票且天气好，安排玉龙雪山；若担心高反或天气差，换成蓝月谷、白沙古镇、黑龙潭慢游。',
+    title: '大理洱海轻环线',
+    stay: '住大理',
+    drive: '当天短途分段开',
+    focus: '少赶路，多拍照',
+    plan: '喜洲、海西生态廊道、双廊择优安排。重点是放松，不把环海变成打卡任务。',
   },
   {
     day: 'D6',
-    title: '丽江 → 虎跳峡 → 香格里拉',
-    stay: '住独克宗古城附近',
-    drive: '约3-4小时，雨季预留时间',
-    focus: '真正进入高原风景',
-    plan: '走丽江到香格里拉方向，中途安排虎跳峡轻量观景，不做高强度徒步。下午到香格里拉后只逛独克宗古城。',
+    title: '大理 → 沙溪 → 丽江',
+    stay: '住束河/白沙',
+    drive: '约200km，分段3-4小时',
+    focus: '茶马古道老镇，比直奔丽江更舒服',
+    plan: '中午停沙溪古镇，下午到丽江。住束河或白沙，安静、停车友好，比丽江古城核心区更适合自驾。',
   },
   {
     day: 'D7',
-    title: '香格里拉：松赞林寺、纳帕海',
-    stay: '住香格里拉',
-    drive: '城郊短途',
-    focus: '文化感、草原感、不要剧烈运动',
-    plan: '上午松赞林寺，下午纳帕海或依拉草原。海拔约3300m，少跑跳，晚餐简单，观察孩子状态。',
+    title: '丽江：玉龙雪山或蓝月谷',
+    stay: '住丽江',
+    drive: '短途，景区需早起',
+    focus: '给儿子的高光奖励日',
+    plan: '天气好且票合适就玉龙雪山；天气差或担心高反，换蓝月谷、白沙古镇、黑龙潭慢游。',
   },
   {
     day: 'D8',
-    title: '香格里拉 → 丽江/大理',
-    stay: '住丽江或大理',
-    drive: '回撤日，约3-5小时',
-    focus: '把高原段安全收回来',
-    plan: '若一家人状态好，回丽江住一晚；如果想减少次日车程，可继续到大理。当天不塞景点。',
+    title: '丽江 → 虎跳峡 → 香格里拉',
+    stay: '住独克宗古城附近',
+    drive: '约180km，3-4小时，雨季预留时间',
+    focus: '真正进入高原风景',
+    plan: '中途轻量看虎跳峡，不做高强度徒步。下午到香格里拉后只逛独克宗古城，少跑跳。',
   },
   {
     day: 'D9',
-    title: '大理/丽江 → 昆明',
-    stay: '住昆明',
-    drive: '大理回昆明约4小时；丽江回昆明更长',
-    focus: '返程缓冲，避免最后一天崩盘',
-    plan: '回昆明还车前留半天缓冲，晚上吃一顿舒服的庆功饭，让儿子讲这次最喜欢哪一天。',
+    title: '香格里拉：松赞林寺、纳帕海',
+    stay: '住香格里拉',
+    drive: '城郊短途',
+    focus: '文化感、草原感、控制海拔节奏',
+    plan: '上午松赞林寺，下午纳帕海或依拉草原。海拔约3300m，少跑跳，晚餐简单。',
   },
   {
     day: 'D10',
-    title: '昆明 → 佛山',
+    title: '香格里拉 → 丽江/大理',
+    stay: '住丽江或大理',
+    drive: '约180-360km',
+    focus: '高原回撤日',
+    plan: '根据状态决定住丽江还是继续到大理。当天不塞景点，把安全和休息放第一。',
+  },
+  {
+    day: 'D11',
+    title: '丽江/大理 → 昆明',
+    stay: '住昆明',
+    drive: '约340-500km',
+    focus: '返程缓冲',
+    plan: '回昆明后做车辆检查、补给、洗衣。晚上吃庆功饭，让儿子选这趟最喜欢的一天。',
+  },
+  {
+    day: 'D12',
+    title: '昆明 → 百色/兴义',
+    stay: '住百色或兴义',
+    drive: '约300-520km',
+    focus: '返程不硬顶',
+    plan: '开始回广东，继续坚持不夜驾。雨大就缩短当天距离。',
+  },
+  {
+    day: 'D13',
+    title: '百色/兴义 → 南宁',
+    stay: '住南宁',
+    drive: '约250-430km',
+    focus: '最后一个中转休息',
+    plan: '南宁作为返程中转，晚上吃饭休息，不安排景点。',
+  },
+  {
+    day: 'D14',
+    title: '南宁 → 平胜',
     stay: '回家',
-    drive: '高铁/飞机返程',
-    focus: '不疲劳返工返校',
-    plan: '上午不排硬景点。高铁或飞机回佛山/广州，保留半天整理照片和休息。',
+    drive: '约560km，6-7小时',
+    focus: '安全回家',
+    plan: '早出发，下午或傍晚回到佛山。第二天最好留半天收拾和休息。',
   },
 ];
 
 const longPlan = [
-  '增加 D2 昆明石林或云南省博物馆，不急着开去大理。',
-  '大理多住1晚：苍山、扎染体验、亲子骑行都可以慢慢来。',
-  '丽江多住1晚：玉湖村、白沙古镇、黑龙潭，适合拍照和休息。',
-  '香格里拉多住1晚：普达措或小中甸花海，但只在身体适应后安排。',
-  '如果全程从佛山开车进云南，建议把南宁/百色作为往返中转点，12-14天才不累。',
+  '如果只有12天：压缩大理或丽江各1晚，但不压缩进出云南的中转安全天。',
+  '如果有14天：保留南宁、百色/兴义中转，云南段玩大理、丽江、香格里拉，整体最舒服。',
+  '如果录取或注册时间突然变化：先砍香格里拉，不要砍回程缓冲。',
+  '如果雨季路况不好：宁愿多住一晚，也不要夜间赶高速或山路。',
+  '如果预算紧：住宿选停车方便的家庭房/双床房，把钱留给油费、门票和车辆保险。',
 ];
 
 const budgetRows = [
-  ['大交通', '高铁四人往返或机票四人往返', '高铁通常更稳，飞机看暑假价格'],
-  ['租车', '紧凑 SUV / MPV 约 9-10 天', '优先选空间、后备箱、保险，不追豪车'],
-  ['住宿', '9晚，家庭房或两间房混合', '大理/丽江可选民宿，香格里拉选暖气和停车方便'],
-  ['门票体验', '玉龙雪山、松赞林寺、虎跳峡等', '玉龙雪山和索道要提前看票，雨天可替换'],
-  ['餐饮', '以本地菜、米线、菌子、简单晚餐为主', '高原段不要饮酒，不安排重口大餐'],
+  ['自家车全程自驾', '约3,800-5,500元交通现金成本', '星光730插混按长途5.3-6.5L/100km估；油费约1,800-2,500，高速约1,600-2,200，停车/洗车/补能预留400-800'],
+  ['高铁+昆明租车', '约8,200-11,500元交通成本', '4人往返高铁约4,000；SUV租车9-10天约3,000-5,500；云南油费/过路费约1,000-1,800'],
+  ['飞机+落地租车', '约11,000-18,000元交通成本', '4人暑假往返机票波动大；再加租车、保险、云南当地油费和过路费'],
+  ['住宿', '14晚约4,200-8,400元', '按300-600元/晚估算；大理丽江可民宿，香格里拉优先暖气和停车'],
+  ['餐饮门票', '约5,000-9,000元', '餐饮按一家四口350-550元/天；玉龙雪山、松赞林寺、虎跳峡等另算'],
+];
+
+const visualMoments = [
+  {
+    image: images.dali,
+    title: '洱海车窗日落',
+    text: '适合 Pocket 3 拍车内聊天、孩子看风景、妈妈放松的生活感镜头。',
+  },
+  {
+    image: images.lijiang,
+    title: '丽江和白沙慢逛',
+    text: '不用赶，拍一家四口走在古镇里的片段，比硬拍景点更有纪念意义。',
+  },
+  {
+    image: images.gorge,
+    title: '虎跳峡路上感',
+    text: '无人机不一定每处都能飞，但这一天适合拍“开车进入高原”的气势。',
+  },
+  {
+    image: images.songzanlin,
+    title: '香格里拉高原感',
+    text: '松赞林寺、纳帕海、云层和草地，是整趟旅行最像大片的部分。',
+  },
 ];
 
 const evidenceCards = [
   {
     icon: <CalendarDays />,
     title: '时间窗口',
-    text: '佛山中小学暑假从 2026年7月11日 开始；中考 6月30日-7月2日，自主招生考核通常在中考后几天，所以7月11日后出发最稳。',
+    text: '佛山中小学暑假从 2026年7月11日 开始，但哥哥真正自由要看录取状态。等第二批和可能的补录窗口后，7月28日以后更稳。',
   },
   {
     icon: <Map />,
     title: '路线真实性',
-    text: '昆明-大理-丽江-香格里拉是多条视频攻略和旅行攻略反复出现的云南第一次经典北线，不是临时拼出来的路线。',
+    text: '佛山-南宁-百色/兴义-昆明进云南，再走大理-丽江-香格里拉，是把长途拆开的实用路线，不硬拼夜车。',
   },
   {
     icon: <ShieldAlert />,
     title: '家庭安全',
-    text: '暑假云南处于雨季，高原段不做重徒步，不把全程自驾压进9-10天，优先保证一家四口舒服和安全。',
+    text: '全程自驾不再按9-10天设计，主方案改成14天。暑假雨季和高原段都要留缓冲，司机体力比多打卡更重要。',
   },
 ];
 
@@ -252,11 +365,12 @@ function Header() {
         </span>
       </a>
       <nav className="nav" aria-label="页面导航">
+        <a href="#school">学校时间</a>
         <a href="#transport">交通对比</a>
-        <a href="#route">10天路线</a>
+        <a href="#route">14天路线</a>
+        <a href="#visuals">拍摄</a>
         <a href="#extend">12-14天</a>
         <a href="#budget">预算</a>
-        <a href="#sources">来源</a>
       </nav>
     </header>
   );
@@ -268,13 +382,13 @@ function App() {
       <Header />
       <main>
         <section className="hero">
-          <img className="hero-img" src={images.hero} alt="丽江玉龙雪山" />
+          <img className="hero-img" src={images.hero} alt="大理苍山洱海" />
           <div className="hero-shade" />
           <div className="hero-content">
             <p className="eyebrow">给老婆看的真实可行版</p>
             <h1>一家四口云南自驾游方案</h1>
             <p className="hero-copy">
-              从广东佛山南海平洲平胜出发，围绕儿子中考后的奖励旅行来设计。主方案 9-10 天，备用 12-14 天，交通方式、车程、预算和风险都摆清楚。
+              从广东佛山南海平洲平胜出发，等哥哥第二批录取和注册事项确认后，开五菱星光730插混 MPV 去云南。主方案 14 天，预算实用，路线稳一点，照片视频也要拍得值得。
             </p>
             <div className="hero-actions">
               <a className="btn primary" href="#recommendation">
@@ -287,18 +401,23 @@ function App() {
             </div>
             <div className="hero-stats">
               <div>
-                <strong>7月11日</strong>
-                <span>小学暑假开始后出发</span>
+                <strong>7月28日后</strong>
+                <span>等录取和注册事项确认</span>
               </div>
               <div>
-                <strong>9-10天</strong>
-                <span>正常推荐天数</span>
+                <strong>14天</strong>
+                <span>全程自驾更舒服</span>
               </div>
               <div>
-                <strong>4人</strong>
-                <span>爸爸妈妈+初三哥哥+三年级妹妹</span>
+                <strong>星光730</strong>
+                <span>插混 MPV + 无人机 + Pocket 3</span>
               </div>
             </div>
+          </div>
+          <div className="hero-gallery" aria-hidden="true">
+            <img src={images.snow} alt="" />
+            <img src={images.dali} alt="" />
+            <img src={images.songzanlin} alt="" />
           </div>
         </section>
 
@@ -306,25 +425,43 @@ function App() {
           <div className="verdict-card">
             <div>
               <p className="eyebrow">我的建议</p>
-              <h2>首选：高铁到昆明 + 云南当地租车自驾。</h2>
+              <h2>首选改成：等第二批录取落定后，自家车14天进云南。</h2>
               <p>
-                这样最适合预算实用、又想保留自驾自由的家庭。9-10天可以真正玩到大理、丽江、香格里拉，不会把爸爸累在广东到云南的高速上。
+                你们已经换了适合家庭长途的插混 MPV，又想自己开过去，这个方向是成立的。关键不是能不能开到云南，而是不要在孩子录取没落定、司机疲劳、雨季赶路这三件事上冒险。
               </p>
             </div>
             <ul className="check-list">
               <li>
                 <CheckCircle2 size={18} />
-                7月11日后出发，刚好接上妹妹小学暑假。
+                妹妹 7月11日 后放暑假，但哥哥要等普通高中录取和注册要求确认。
               </li>
               <li>
                 <CheckCircle2 size={18} />
-                儿子刚考完，路线重点放在雪山、古城、洱海、虎跳峡和高原草原。
+                参考 2025 年节奏，第二批、补录、第三批集中在 7月下旬，保守按 7月28日后 出发。
               </li>
               <li>
                 <CheckCircle2 size={18} />
-                不晕车也不要硬拼长途，暑假雨季要给车程留余量。
+                全程自驾按 14 天设计，南宁、百色/兴义做中转，不把长途压成硬仗。
               </li>
             </ul>
+          </div>
+        </section>
+
+        <section className="section school" id="school">
+          <div className="section-head">
+            <p className="eyebrow">什么时候才算真正自由</p>
+            <h2>先把升学手续放第一位，再出发。</h2>
+            <p>中考完、妹妹放暑假，都还不等于哥哥完全自由。下面按 2026 已知信息和 2025 录取节奏做保守判断。</p>
+          </div>
+          <div className="school-grid">
+            {schoolMilestones.map((item) => (
+              <article className="school-card" key={item.title}>
+                <span>{item.date}</span>
+                <strong>{item.state}</strong>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
           </div>
         </section>
 
@@ -341,8 +478,8 @@ function App() {
         <section className="section transport" id="transport">
           <div className="section-head">
             <p className="eyebrow">交通方式对比</p>
-            <h2>三个交通方式放在一个页面，但用决策卡片呈现。</h2>
-            <p>你可以直接给老婆看：不是只说“去云南”，而是把怎么去、累不累、贵不贵、适合几天都讲清楚。</p>
+            <h2>现在把“自家车进云南”作为主线，另外两种作为费用参照。</h2>
+            <p>这样你老婆看的是同一件事：自己开车是不是划算、是不是值得、需要多少天，而不是被三个路线弄乱。</p>
           </div>
           <div className="transport-grid">
             {transportOptions.map((option) => (
@@ -396,8 +533,8 @@ function App() {
 
         <section className="photo-band">
           <figure>
-            <img src={images.dali} alt="大理苍山洱海" />
-            <figcaption>大理：洱海和古城适合放慢节奏</figcaption>
+            <img src={images.snow} alt="丽江玉龙雪山" />
+            <figcaption>丽江：雪山这一日留给哥哥做高光奖励</figcaption>
           </figure>
           <figure>
             <img src={images.gorge} alt="虎跳峡" />
@@ -412,8 +549,8 @@ function App() {
         <section className="section route" id="route">
           <div className="section-head">
             <p className="eyebrow">主方案</p>
-            <h2>9-10天经典北线：昆明、大理、丽江、香格里拉。</h2>
-            <p>这是给第一次出省不多、又想有“云南代表性”的家庭设计：不追求小众炫技，追求稳、漂亮、孩子记得住。</p>
+            <h2>14天全程自驾：平胜、南宁、百色/兴义、昆明、大理、丽江、香格里拉。</h2>
+            <p>这是给新车、孩子、雨季和司机体力一起考虑的版本。不炫技，不夜驾，不把长途压缩成硬拼。</p>
           </div>
           <div className="timeline">
             {coreDays.map((day) => (
@@ -433,6 +570,25 @@ function App() {
                   <h3>{day.title}</h3>
                   <p className="focus">{day.focus}</p>
                   <p>{day.plan}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section visuals" id="visuals">
+          <div className="section-head">
+            <p className="eyebrow">拍摄和期待感</p>
+            <h2>无人机、Pocket 3 和新 MPV，应该成为这次旅行的一部分。</h2>
+            <p>图片丰富是有必要的。它不只是装饰，而是让老婆和孩子提前看到这趟旅行会留下什么。</p>
+          </div>
+          <div className="visual-grid">
+            {visualMoments.map((item) => (
+              <article className="visual-card" key={item.title}>
+                <img src={item.image} alt="" />
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
                 </div>
               </article>
             ))}
@@ -460,8 +616,8 @@ function App() {
         <section className="section budget" id="budget">
           <div className="section-head">
             <p className="eyebrow">预算思路</p>
-            <h2>少钱实用，不等于一路将就。</h2>
-            <p>钱优先花在交通效率、靠谱住宿、租车保险和孩子体验上；少花在无意义打卡、重复古城、临时高价包车上。</p>
+            <h2>自己开车最省交通现金，但要把时间和司机体力算进去。</h2>
+            <p>下面只比较交通和大项预算，真实订票订房前还要按当日油价、房价、景区票价再更新一次。</p>
           </div>
           <div className="budget-table">
             {budgetRows.map(([name, content, note]) => (
@@ -475,7 +631,7 @@ function App() {
           <div className="risk-box">
             <Fuel size={22} />
             <p>
-              实操提醒：7月是暑假+云南雨季。玉龙雪山、虎跳峡、香格里拉高原段都要看天气；高铁票、租车、可取消住宿建议提前锁定，门票和索道到出发前一周再按天气确认。
+              实操提醒：插混 MPV 很适合家庭长途，但云南段充电不作为刚需，按亏电油耗估算更稳。高速服务区能充就补，不能充也不影响行程。
             </p>
           </div>
         </section>
@@ -486,7 +642,7 @@ function App() {
             <h2>这不是为了赶景点，是为了奖励孩子，也让一家人有一次认真出发。</h2>
           </div>
           <p>
-            哥哥初中三年很辛苦，这趟旅行的重点不是“爸爸规划得多厉害”，而是让他在考完后真的换个地方喘口气。妹妹还小，所以每天不要排太满；妈妈也不用被迫跟着赶路。这个版本先把方向定稳，后面再按机票/高铁票/天气微调。
+            哥哥初中三年很辛苦，这趟旅行的重点不是“爸爸规划得多厉害”，而是等学校事情落定后，全家开着新车认真出去一次。无人机和 Pocket 3 不是为了炫设备，是为了把哥哥毕业、小妹第一次远行、妈妈路上的笑脸都留下来。
           </p>
         </section>
 
@@ -508,7 +664,7 @@ function App() {
       </main>
       <footer className="site-footer">
         <strong>云南自驾家庭方案</strong>
-        <span>佛山南海平洲平胜出发 · 暑假一放假就走 · 预算实用版</span>
+        <span>佛山南海平洲平胜出发 · 等第二批录取后 · 自家车14天预算实用版</span>
         <a href="#top">回到顶部</a>
       </footer>
     </div>

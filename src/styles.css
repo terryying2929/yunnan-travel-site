@@ -138,17 +138,41 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 46%;
 }
 
 .hero-shade {
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(6, 15, 14, 0.88), rgba(11, 29, 25, 0.76) 40%, rgba(13, 29, 28, 0.2)),
-    linear-gradient(0deg, rgba(5, 12, 11, 0.78), rgba(5, 12, 11, 0.08) 48%);
+    linear-gradient(90deg, rgba(6, 15, 14, 0.84), rgba(11, 29, 25, 0.58) 42%, rgba(13, 29, 28, 0.04)),
+    linear-gradient(0deg, rgba(5, 12, 11, 0.54), rgba(5, 12, 11, 0.02) 52%);
 }
 
 .hero-content {
   width: min(780px, 100%);
+}
+
+.hero-gallery {
+  position: absolute;
+  right: clamp(20px, 5vw, 76px);
+  bottom: 66px;
+  display: grid;
+  grid-template-columns: repeat(3, 118px);
+  gap: 12px;
+  width: fit-content;
+}
+
+.hero-gallery img {
+  width: 118px;
+  height: 154px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 8px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.28);
+}
+
+.hero-gallery img:nth-child(2) {
+  transform: translateY(-22px);
 }
 
 .eyebrow {
@@ -312,6 +336,49 @@ h3 {
   flex: 0 0 auto;
   color: var(--green);
   margin-top: 3px;
+}
+
+.school {
+  background:
+    linear-gradient(135deg, rgba(216, 157, 53, 0.12), transparent 42%),
+    #f5f1e8;
+}
+
+.school-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.school-card {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fffdf7;
+  box-shadow: 0 12px 28px rgba(31, 49, 42, 0.07);
+}
+
+.school-card > span {
+  display: inline-flex;
+  margin-bottom: 16px;
+  color: var(--terra);
+  font-weight: 950;
+}
+
+.school-card strong {
+  display: block;
+  width: fit-content;
+  margin-bottom: 12px;
+  padding: 6px 9px;
+  color: #10231e;
+  border-radius: 999px;
+  background: rgba(216, 157, 53, 0.2);
+  font-size: 0.82rem;
+}
+
+.school-card p {
+  color: var(--muted);
 }
 
 .evidence {
@@ -583,6 +650,41 @@ h3 {
   color: rgba(255, 255, 255, 0.82);
 }
 
+.visuals {
+  background:
+    linear-gradient(180deg, #fffdf7, #f5f1e8);
+}
+
+.visual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.visual-card {
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 14px 34px rgba(31, 49, 42, 0.08);
+}
+
+.visual-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.15 / 1;
+  object-fit: cover;
+}
+
+.visual-card div {
+  padding: 20px;
+}
+
+.visual-card p {
+  color: var(--muted);
+}
+
 .budget {
   background: var(--paper);
 }
@@ -719,7 +821,9 @@ h3 {
 
   .transport-grid,
   .evidence,
-  .photo-band {
+  .photo-band,
+  .school-grid,
+  .visual-grid {
     grid-template-columns: 1fr;
   }
 
@@ -745,6 +849,10 @@ h3 {
   .hero {
     min-height: 88vh;
     padding-top: 104px;
+  }
+
+  .hero-gallery {
+    display: none;
   }
 
   .hero-shade {
