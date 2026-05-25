@@ -120,6 +120,19 @@ Git 存储库：terryying2929/yunnan-travel-site
 
 只要项目已经连接 GitHub 仓库，并且生产分支是 `main`，以后每次本地改代码并 push 到 GitHub，Cloudflare Pages 就会自动构建和部署。
 
+实际成功后的部署页面大概是这样：
+
+![Cloudflare Pages 自动部署成功截图](docs/assets/cloudflare-pages-deployments.png)
+
+这张图里可以确认几个点：
+
+- `自动部署已启用`
+- 域名是 `yunnan-travel-site.pages.dev`
+- 分支是 `main`
+- 最新提交是 `6a53c6e`
+- 最新部署状态是绿色对勾
+- 提交信息是 `Document Cloudflare Pages deployment notes`
+
 ## 最可靠的自动部署测试
 
 可以做一个很小的文字修改，然后：
